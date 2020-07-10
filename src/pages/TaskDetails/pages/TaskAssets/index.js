@@ -10,6 +10,8 @@ function TaskAssets({ id }) {
     baseURL: 'http://192.168.10.43:3000'
   })
 
+  const [file, setFile] = useState();
+
   let baseURL = "http://192.168.10.43:3000/imagens/";
 
   const [images, setImages] = useState([]);
@@ -22,6 +24,37 @@ function TaskAssets({ id }) {
 
   function handleOpen(url) {
     window.open(url, "_blank")
+  }
+
+  // const sendImage = async () => {
+	// 	setOpen(false)
+	// 	setDisabled(true)
+		
+	// 	const imagesData = new FormData();
+		
+	// 	imagesData.append('image', {
+	// 		uri: result.uri,
+	// 		type: 'image/jpeg',
+	// 		name: `${task_id}.jpeg`
+	// 	});
+
+	// 	try {
+	// 		const response = await apii.post(`/post`, imagesData, { params: { task_id } });
+	// 		if (response.status != 200) {
+	// 			alert('Verifique sua internet e tente novamente')
+	// 		}
+	// 		alert('Foto', 'Imagem enviada com sucesso!!');
+	// 		navigation.navigate('TaskActions')
+	// 	} catch (error) {
+	// 		alert(erro)
+	// 	}
+  // }
+  
+  async function sendFile(event){
+    //http://192.168.10.43:3000/post
+    event.preventDefault();
+    console.log(event)
+    console.log(file)
   }
 
   useEffect(() => {
@@ -51,7 +84,10 @@ function TaskAssets({ id }) {
         ))}
       </FileContainer>
       <InputContainer>
-        <input type="file"/>
+        <form onSubmit={e => sendFile(e)} encType="multipart/form-data">
+          <input type="file" name= "image" onChange ={e => setFile(e.target.value)}/>
+          <button type="submit" name="upload">Enviar</button>
+        </form>
       </InputContainer>
 
     </Container>
