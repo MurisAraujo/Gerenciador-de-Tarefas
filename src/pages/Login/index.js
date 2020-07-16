@@ -38,6 +38,7 @@ function Login() {
 			}
 		} catch (error) {	
 			console.log(error);
+			window.alert("Acesso não autorizado, usuario ou senha incorretos por favor tentar novamente.");
 		}
 	}
 	

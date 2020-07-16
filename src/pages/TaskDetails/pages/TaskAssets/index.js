@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { Container, FileContainer, InputContainer, Image } from './styles';
@@ -7,14 +8,13 @@ import file from '../../../../assets/file.svg';
 function TaskAssets({ id }) {
 
   const apii = axios.create({
-    baseURL: 'http://192.168.10.43:3000'
+    baseURL: 'http://192.168.0.99:3000'
   })
 
-  const [file, setFile] = useState();
-
-  let baseURL = "http://192.168.10.43:3000/imagens/";
+  let baseURL = "http://192.168.0.99:3000/imagens/";
 
   const [images, setImages] = useState([]);
+  const history = useHistory();
 
   const loadImage = async () => {
     const response = await apii.get(`/getImages/${id}`);
@@ -25,37 +25,26 @@ function TaskAssets({ id }) {
   function handleOpen(url) {
     window.open(url, "_blank")
   }
-
-  // const sendImage = async () => {
-	// 	setOpen(false)
-	// 	setDisabled(true)
-		
-	// 	const imagesData = new FormData();
-		
-	// 	imagesData.append('image', {
-	// 		uri: result.uri,
-	// 		type: 'image/jpeg',
-	// 		name: `${task_id}.jpeg`
-	// 	});
-
-	// 	try {
-	// 		const response = await apii.post(`/post`, imagesData, { params: { task_id } });
-	// 		if (response.status != 200) {
-	// 			alert('Verifique sua internet e tente novamente')
-	// 		}
-	// 		alert('Foto', 'Imagem enviada com sucesso!!');
-	// 		navigation.navigate('TaskActions')
-	// 	} catch (error) {
-	// 		alert(erro)
-	// 	}
-  // }
   
+  // eslint-disable-next-line
   async function sendFile(event){
     //http://192.168.10.43:3000/post
     event.preventDefault();
     console.log(event)
     console.log(file)
   }
+
+  function isLogged() {
+		const teste = localStorage.getItem('Authorization');
+		if (teste == null) {
+			history.push('/');
+		}
+  }
+  
+  useEffect(() => { 
+    isLogged();
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     loadImage();
@@ -71,7 +60,7 @@ function TaskAssets({ id }) {
             {image.type === "application/pdf" ?
               <div style={{ maxWidth: "20%", maxHeight: '400px', margin: '3%', cursor: 'pointer', display: 'flex', flexWrap: 'wrap' }} onClick={() => handleOpen(image.image_url)}>
                 <img src={file} alt="" />
-                <h3>{}{image.name}</h3>
+                <h3>{image.name}</h3>
               </div>
               :
               <Image
@@ -84,10 +73,10 @@ function TaskAssets({ id }) {
         ))}
       </FileContainer>
       <InputContainer>
-        <form onSubmit={e => sendFile(e)} encType="multipart/form-data">
+        {/* <form onSubmit={e => sendFile(e)} encType="multipart/form-data">
           <input type="file" name= "image" onChange ={e => setFile(e.target.value)}/>
           <button type="submit" name="upload">Enviar</button>
-        </form>
+        </form> */}
       </InputContainer>
 
     </Container>

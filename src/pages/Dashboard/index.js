@@ -21,37 +21,36 @@ function Dashboard() {
 	const [update, setUpdate] = useState(false);
 
 	// eslint-disable-next-line
-	const [{setDoing}, drop] = useDrop({
+	const [{ setDoing }, drop] = useDrop({
 		accept: ItemTypes.CARD,
-		drop: (item, monitor) => handleToggle(item.id, item.state),
+		drop: (item, monitor) => handleToggle(item.id, item.state, item.percent),
 		collect: monitor => ({
 			setDoing: !!monitor.isOver()
 		})
 	})
 
 	// eslint-disable-next-line
-	const [{setDone}, drop2] = useDrop({
+	const [{ setDone }, drop2] = useDrop({
 		accept: ItemTypes.CARD2,
-		drop: (item, monitor) => handleToggle(item.id, item.state),
+		drop: (item, monitor) => handleToggle(item.id, item.state, item.percent),
 		collect: monitor => ({
 			setDone: !!monitor.isOver()
 		})
 	})
 
 	function isLogged() {
-		const teste = localStorage.getItem('permission');
+		const teste = localStorage.getItem('Authorization');
 		if (teste == null) {
 			history.push('/');
 		}
 	}
 
-	function Logout(){
+	function Logout() {
 		logout();
 		history.push('/');
 	}
 
 	async function toDoTaskLoad() {
-		console.log(Administrator)
 		await api.post('/getTask', {
 			"Administrator": Administrator,
 			"state": 0
@@ -96,14 +95,21 @@ function Dashboard() {
 		});
 	}
 
-	async function handleToggle(id, state){
-		console.log(id, state)
-		state = state + 1;
+	async function handleToggle(id, state, percent) {
+		if(state === 1 && percent !== 100){
+			window.alert('A tarefa só pode ser finalizada quando estiver 100% completa.');
+			return;
+		}
+		if (state === 2) {
+			state = state - 1;
+		} else {
+			state = state + 1;
+		}
 		// eslint-disable-next-line
 		const response = await api.post('/kanban/toggle', {
 			'id': id,
 			'state': state,
-		} , {
+		}, {
 			headers: {
 				"Authorization": localStorage.getItem('Authorization')
 			}
@@ -128,13 +134,13 @@ function Dashboard() {
 		<Container>
 			<Header>
 				<NewTaskDiv>
-					<Link to="/add" style={{height: '50px', alignSelf: 'center'}}>
+					<Link to="/add" style={{ height: '50px', alignSelf: 'center' }}>
 						<NewTaskBtn>Nova Tarefa</NewTaskBtn>
 					</Link>
 				</NewTaskDiv>
 				<LogOutDiv>
 					<UserName>Bem Vindo, {user_name}</UserName>
-					<LogOutBtn onClick= {() => Logout()}><img src={LogOut} alt="logout" /></LogOutBtn>
+					<LogOutBtn onClick={() => Logout()}><img src={LogOut} alt="logout" /></LogOutBtn>
 				</LogOutDiv>
 			</Header>
 			<ContainerTask>
@@ -144,29 +150,29 @@ function Dashboard() {
 					</TaskTitle>
 					<TaskDiv>
 						{toDoTask.map(task => (
-							<TaskCard value={task} key = {task.id} />
+							<TaskCard value={task} key={task.id} />
 						))}
 					</TaskDiv>
 				</TaskArea>
 				<Divisor />
-				<TaskArea ref = {drop} >
+				<TaskArea ref={drop} >
 					<TaskTitle>
 						FAZENDO
 					</TaskTitle>
 					<TaskDiv >
 						{doingTask.map(task => (
-							<TaskCard value={task} key = {task.id}/>
+							<TaskCard value={task} key={task.id} />
 						))}
 					</TaskDiv>
 				</TaskArea>
 				<Divisor />
-				<TaskArea ref = {drop2}>
+				<TaskArea ref={drop2}>
 					<TaskTitle>
 						FEITO
 					</TaskTitle>
 					<TaskDiv>
 						{doneTask.map(task => (
-							<TaskCard value={task} key = {task.id}/>
+							<TaskCard value={task} key={task.id} />
 						))}
 					</TaskDiv>
 				</TaskArea>

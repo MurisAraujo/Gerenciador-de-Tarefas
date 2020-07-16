@@ -41,7 +41,7 @@ export const Form = styled.div`
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 		margin: 10px 5px;
 	}
-`
+`;
 
 export const Input = styled.input`
 	width: 90%;	
@@ -54,12 +54,12 @@ export const Input = styled.input`
 	color:#d1d1d1;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 	margin: 10px;
-`
+`;
 
 export const DateInput = styled(Input)`
 	width: 100%;
 	height: 50%;
-`
+`;
 
 export const Button = styled.button`
 	background: none;
@@ -78,7 +78,7 @@ export const Button = styled.button`
     :hover{
       background-color: #9FC782
     }
-`
+`;
 
 export const BackBtn = styled.button`
 	background: none;
@@ -99,4 +99,4 @@ export const BackBtn = styled.button`
     :hover{
       background-color: #9FC782
     }
-`
+`;

@@ -4,6 +4,7 @@ export const getToken = () => localStorage.getItem('Authorization');
 export const login = token => {
     localStorage.setItem('Authorization', token);
 };
+
 export const logout = () => {
     localStorage.removeItem('Authorization');
     localStorage.removeItem('permission');

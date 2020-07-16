@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../../../services/api';
 import { useHistory } from 'react-router-dom';
 
+import api from '../../../../services/api';
 import { InfoContainer, Divisor, Container, DescContainer, Button } from './styles';
 
 function TaskInfo({ id }) {
 
   const [task, setTask] = useState({});
+  const [desc, setDesc] = useState('');
   const history = useHistory();
-  const admin = localStorage.getItem('permission')
+  const admin = localStorage.getItem('permission');
+
 
   async function loadTask() {
     await api.post('/tasks/getOneTask', {
@@ -20,10 +22,11 @@ function TaskInfo({ id }) {
       }
     }).then(response => {
       setTask(response.data[0]);
+      setDesc(response.data[0].full_description);
     }).catch((erro) => {
       console.log(erro);
     })
-  }
+  };
 
   async function deleteTask() {
     if (window.confirm("Excluir Tarefa?")) {
@@ -42,9 +45,40 @@ function TaskInfo({ id }) {
       })
 
     }
-  }
+  };
 
+  async function changeDescription() {
+    let description = prompt("Digite a nova descrição.");
+    if (description !== null) {
+      await api.put('/tasks/updateDescription', {
+        'id': id,
+        'full_description': description
+      }, {
+        headers: {
+          "Authorization": localStorage.getItem('Authorization')
+        }
+      }).then(response => {
+        if (response.status === 203) {
+          window.alert("Somente o dono da tarefa pode mudar a descrição");
+          return
+        }
+        setDesc(description);
+      });
+    }else{
+      window.alert('A descrição não pode ser vazia.');
+    }
+
+
+  };
+
+  function isLogged() {
+		const teste = localStorage.getItem('Authorization');
+		if (teste == null) {
+			history.push('/');
+		}
+	}
   useEffect(() => {
+    isLogged();
     loadTask();
     // eslint-disable-next-line
   }, []);
@@ -77,15 +111,15 @@ function TaskInfo({ id }) {
         </div>
         <div>
           <h3>Progresso</h3>
-          <p> {task.priority}% Completo</p>
+          <p> {task.percent}% Completo</p>
         </div>
         <div>
-          <Button delete  onClick={() => deleteTask()}>
+          <Button delete onClick={() => deleteTask()}>
             Excluir
           </Button>
         </div>
         <div>
-          <Button>
+          <Button onClick={() => changeDescription()}>
             Alterar Descrição
           </Button>
         </div>
@@ -93,7 +127,7 @@ function TaskInfo({ id }) {
       <Divisor />
       <DescContainer>
         <h2>Descrição</h2>
-        <p>{task.full_description}</p>
+        <p>{desc}</p>
       </DescContainer>
     </Container>
   )

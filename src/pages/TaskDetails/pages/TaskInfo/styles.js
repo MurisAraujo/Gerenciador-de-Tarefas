@@ -5,7 +5,7 @@ export const Container = styled.div`
   display:flex;
   height:100%;
   padding: 0 30px;
-`
+`;
 
 export const InfoContainer = styled.div`
   width:49.5%;
@@ -38,7 +38,7 @@ export const Divisor = styled.div`
   height:90%;
   align-self: center;
   border-radius:10px;
-`
+`;
 
 export const DescContainer = styled.div`
   width:49.5%;
@@ -55,9 +55,10 @@ export const DescContainer = styled.div`
     font-size:20px;
     color:#e9e9e9;
     height:80%;
-    word-break: normal;
+    word-break: break-all;
   }
-`
+`;
+
 export const Button = styled.button`
   width: 50%;
   height:20%;
@@ -67,4 +68,4 @@ export const Button = styled.button`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .8), 0 3px 10px 0 rgba(0, 0, 0, 0.6);
   font-size:18px;
   cursor: pointer;
-`
+`;

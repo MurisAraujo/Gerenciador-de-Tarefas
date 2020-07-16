@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import { Link } from 'react-router-dom';
 
@@ -50,6 +51,19 @@ function AddTask() {
 		})
 	}
 
+	const history = useHistory();
+	function isLogged() {
+		const teste = localStorage.getItem('Authorization');
+		if (teste == null) {
+			history.push('/');
+		}
+	}
+
+	useEffect(() => { 
+		isLogged();
+		// eslint-disable-next-line
+	  }, []);
+
 	useEffect(() => {
 		loadDept();
 	}, [])
@@ -86,7 +100,7 @@ function AddTask() {
 				</div>
 				<div style={{ width: '30%', height: '10%', margin: '5px 10px' }}>
 					<h3>Departamento</h3>
-					<select name="departament" onChange={event => setDept_id(event.target.value)}>
+					<select name="departament" onChange={event => setDept_id(event.target.value)} >
 						<option >Selecione um Departamento</option>
 						{dept.map(departament => (
 							<option key={departament.key} value={departament.key}>{departament.label}</option>

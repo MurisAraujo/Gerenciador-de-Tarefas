@@ -96,7 +96,10 @@ export const Item = styled.div`
     text-align:center;
     word-break:break-all;
   }
-  
+  @media (max-height: 700px) {
+    width: 60%;
+    min-height: 12%;
+  }
 `;
 
 export const Button = styled.button`
@@ -113,4 +116,4 @@ export const Button = styled.button`
   align-self: center;
   margin: 0 10px;
   color:#d1d1d1;
-`
+`;

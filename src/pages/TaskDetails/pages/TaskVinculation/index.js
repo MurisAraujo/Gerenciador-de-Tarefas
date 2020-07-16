@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
+
 import api from '../../../../services/api';
 import plus from '../../../../assets/user-plus.svg';
 import times from '../../../../assets/user-x.svg';
 import right from '../../../../assets/arrow-right.svg';
 import left from '../../../../assets/arrow-left.svg';
-
 import { Container, Divisor, NotVinculatedUsersArea, VinculatedUsersArea, UserCard, Button, PageButton } from './styles';
 
 function TaskVinculation({ id }) {
@@ -13,9 +14,9 @@ function TaskVinculation({ id }) {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [change, setChange] = useState(false);
+  const history = useHistory();
 
   async function loadvincUsers() {
-
     await api.post('/tasks/nameRelated', {
       'task_id': parseInt(id)
     }, {
@@ -40,6 +41,15 @@ function TaskVinculation({ id }) {
     })
   }
 
+  async function searchUsers(user) {
+    await api.get(`/getName?nome=${user}`, {
+      headers: {
+        "Authorization": localStorage.getItem('Authorization')
+      }
+    }).then(response => {
+      setUsers(response.data);
+    })
+  }
 
   async function vinculateUser(user_id) {
     await api.post('/tasks/createRelated', {
@@ -65,9 +75,17 @@ function TaskVinculation({ id }) {
     setChange(!change)
   }
 
+  function isLogged() {
+		const teste = localStorage.getItem('Authorization');
+		if (teste == null) {
+			history.push('/');
+		}
+	}
+
   useEffect(() => {
     loadvincUsers();
     loadUsers();
+    isLogged();
     // eslint-disable-next-line
   }, [change]);
 
@@ -81,7 +99,7 @@ function TaskVinculation({ id }) {
       <VinculatedUsersArea>
         <h2>Usuarios Vinculados</h2>
         {vincUsers.map(vincUser => (
-          <UserCard key = {vincUser.id}>
+          <UserCard key={vincUser.id}>
             <h3>
               {vincUser.name}
             </h3>
@@ -94,10 +112,11 @@ function TaskVinculation({ id }) {
       <Divisor />
       <NotVinculatedUsersArea>
         <h2>Vincular Usuario</h2>
+        <input type="text" onChange={e => searchUsers(e.target.value)} placeholder="Pesquisar Usuário"/>
         {users.map(user => (
-          <UserCard key = {user.id}>
+          <UserCard key={user.id}>
             <h3>
-              {user.name}
+              {user.name === undefined ? user.nome : user.name}
             </h3>
             <Button onClick={() => vinculateUser(user.id)}>
               <img src={plus} alt="plus" />

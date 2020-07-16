@@ -25,7 +25,7 @@ export const Container = styled.div`
   height: 95%;
   background: #282828;
   ${props => props.state === false ? `visibility: hidden` : `display: block`};
-  animation: ${props => props.state === false ? fadeOut : fadeIn} .5s linear;
+  animation: ${props => props.state === false ? fadeOut : fadeIn} .1s linear;
   transition: visibility 1s linear;
   opacity: 1;
 `;
@@ -37,7 +37,7 @@ export const TitleChat = styled.h2`
 	color: #5FA130;
 	font-size: 28px;
 	text-align:center;
-`
+`;
 
 export const MsgArea = styled.div`
 	${props => props.state === false ? `display: none` : `display: block`};
@@ -48,7 +48,7 @@ export const MsgArea = styled.div`
 		display:none;
 	}
 	
-`
+`;
 
 export const InputArea = styled.div`
 	${props => props.state === false ? `display: none` : `display: flex`};
@@ -119,5 +119,5 @@ export const Comment = styled.div`
 		font-size:20px;
 		margin: 5px 5px;
 	}
-`
+`;
 

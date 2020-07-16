@@ -25,7 +25,24 @@ export const VinculatedUsersArea = styled.div`
 `;
 
 export const NotVinculatedUsersArea = styled(VinculatedUsersArea)`
-  
+  input{
+    width: 70%; 
+    height: 40px;
+    background: none;
+    display:block;
+    margin:20px auto;
+    border: 2px solid #e9e9e9;
+    padding: 25px 14px;
+    outline: none;
+    color: #e9e9e9;
+    border-radius:50px;
+    transition:0.25s;
+    font-size:20px;
+      :focus{
+        width: 75%;
+        border-color: #9FC782;
+      }
+    }
 `;
 
 export const Divisor = styled.div`
@@ -53,7 +70,11 @@ export const UserCard = styled.div`
     font-size: 20px; 
     font-weight: 500;
   }
-`
+  @media (max-height: 700px) {
+    height: 15%;
+    width: 60%;
+  }
+`;
 
 export const Button = styled.button`
   width: 12%;
@@ -69,7 +90,7 @@ export const Button = styled.button`
   align-items:center;
   cursor:pointer;
   border:none;
-`
+`;
 
 export const PageButton = styled.button`
   width: 40px;
@@ -85,5 +106,4 @@ export const PageButton = styled.button`
   bottom:10px;
   ${props => props.right ? "right: 30px" : null};
   cursor: pointer;
-`
-
+`;

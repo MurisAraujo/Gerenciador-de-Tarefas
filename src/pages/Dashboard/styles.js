@@ -69,6 +69,7 @@ export const ContainerTask = styled.div`
 	height: 895px;
 	display:flex;
 `;
+
 export const TaskArea = styled.div`
 	width:33%;
 	height: 100%;
@@ -99,4 +100,4 @@ export const TaskDiv = styled.div`
 	::-webkit-scrollbar{
 		display:none;
 	}
-`
+`;

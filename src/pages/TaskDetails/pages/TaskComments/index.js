@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Container, TitleChat, MsgArea, InputArea, Comment, Submit } from './styles';
 import api from '../../../../services/api';
 
@@ -50,6 +51,19 @@ function TaskComments(props) {
     }
   }
 
+  const history = useHistory();
+  function isLogged() {
+		const teste = localStorage.getItem('Authorization');
+		if (teste == null) {
+			history.push('/');
+		}
+  }
+  
+  useEffect(() => { 
+    isLogged();
+    // eslint-disable-next-line
+  }, []);
+
   useEffect(() => {
     loadComments();
     // eslint-disable-next-line
@@ -59,7 +73,6 @@ function TaskComments(props) {
     loadComments();
     // eslint-disable-next-line
   }, [update]);
-
 
   return (
     <Container state={props.state}>
@@ -74,7 +87,7 @@ function TaskComments(props) {
         ))}
       </MsgArea>
       <InputArea state={props.state}>
-        <input id="comment" type="text" onChange={event => setDescription(event.target.value)} />
+        <input id="comment" type="text" onChange={event => setDescription(event.target.value)} autoComplete= "off"/>
         <Submit onClick={() => sendComment()}>Enviar</Submit>
       </InputArea>
     </Container>

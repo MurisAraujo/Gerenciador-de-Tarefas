@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../../../../services/api';
 import { Container, CheckListArea, Divisor, CheckedListArea, Item, Button, Submit } from './styles';
 
@@ -7,6 +8,7 @@ function TaskCheckList({ id }) {
   const [checklist, setChecklist] = useState([]);
   const [description, setDescription] = useState('');
   const [update, setUpdate] = useState(false);
+  const history = useHistory();
 
   async function sendTask() {
     await api.post('/tasks/newTaskChecklist', {
@@ -57,6 +59,18 @@ function TaskCheckList({ id }) {
     })
     setUpdate(!update);
   }
+
+  function isLogged() {
+		const teste = localStorage.getItem('Authorization');
+		if (teste == null) {
+			history.push('/');
+		}
+  }
+  
+  useEffect(() => { 
+    isLogged();
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     loadCheckList()

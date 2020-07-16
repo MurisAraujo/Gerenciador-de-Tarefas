@@ -73,4 +73,4 @@ export const LoginButton = styled.input`
 	:hover{
 		background-color: #9FC782
 	}
-`
+`;

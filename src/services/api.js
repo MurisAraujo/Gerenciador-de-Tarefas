@@ -11,5 +11,6 @@ const api = axios.create({
         'Access-Control-Allow-Headers':'application/json',
         'Content-Type': 'application/json',
     },
-})
+});
+
 export default api;
