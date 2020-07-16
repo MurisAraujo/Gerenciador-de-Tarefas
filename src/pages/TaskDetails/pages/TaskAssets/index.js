@@ -8,7 +8,7 @@ import file from '../../../../assets/file.svg';
 function TaskAssets({ id }) {
 
   const apii = axios.create({
-    baseURL: 'http://187.35.128.157:3333'
+    baseURL: 'http://187.35.128.157:3334'
   })
 
   let baseURL = "http://187.35.128.157:3334/imagens/";
