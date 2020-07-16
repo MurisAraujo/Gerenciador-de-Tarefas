@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
     //baseURL: 'http://localhost:3333',
-    baseURL: 'http://192.168.0.99:3333',
+    baseURL: 'http://187.35.128.157:3333',
     method: 'POST',
     contentType: 'application/json',
     headers: {

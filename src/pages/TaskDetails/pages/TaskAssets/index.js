@@ -8,10 +8,10 @@ import file from '../../../../assets/file.svg';
 function TaskAssets({ id }) {
 
   const apii = axios.create({
-    baseURL: 'http://192.168.0.99:3000'
+    baseURL: 'http://187.35.128.157:3333'
   })
 
-  let baseURL = "http://192.168.0.99:3000/imagens/";
+  let baseURL = "http://187.35.128.157:3334/imagens/";
 
   const [images, setImages] = useState([]);
   const history = useHistory();
