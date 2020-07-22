@@ -55,7 +55,7 @@ export const DescContainer = styled.div`
     font-size:20px;
     color:#e9e9e9;
     height:80%;
-    word-break: break-all;
+    word-break: normal;
   }
 `;
 

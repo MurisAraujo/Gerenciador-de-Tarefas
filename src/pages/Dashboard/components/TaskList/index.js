@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd';
 import { Link } from 'react-router-dom';
 
 import { ItemTypes } from '../../../../utils/items';
-import { Container, PriorityFlag, TaskTitle, TaskProgress, TaskDepartament, TaskDate } from './styles';
+import { Container, PriorityFlag, TaskTitle, TaskDepartament, TaskDate } from './styles';
 
 function TaskCard({ value }) {
 
@@ -40,10 +40,6 @@ function TaskCard({ value }) {
                             value={setTaskDoing}>
                             <PriorityFlag value={value.priority} />
                             <TaskTitle>{value.description}</TaskTitle>
-                            {value.percent == null ?
-                                <TaskProgress>0% Completo</TaskProgress> :
-                                <TaskProgress>{value.percent}% Completo</TaskProgress>
-                            }
                             <TaskDepartament>{value.departament}</TaskDepartament>
                             <TaskDate> {value.initial_date} - {value.final_date} </TaskDate>
                         </Container>
@@ -57,10 +53,6 @@ function TaskCard({ value }) {
                                 value={setTaskDone}>
                                 <PriorityFlag value={value.priority} />
                                 <TaskTitle>{value.description}</TaskTitle>
-                                {value.percent == null ?
-                                    <TaskProgress>0% Completo</TaskProgress> :
-                                    <TaskProgress>{value.percent}% Completo</TaskProgress>
-                                }
                                 <TaskDepartament>{value.departament}</TaskDepartament>
                                 <TaskDate> {value.initial_date} - {value.final_date} </TaskDate>
                             </Container>
@@ -74,7 +66,6 @@ function TaskCard({ value }) {
                                 value={setTaskDoing}>
                                 <PriorityFlag value={value.priority} />
                                 <TaskTitle>{value.description}</TaskTitle>
-                                <TaskProgress>{value.percent == null ? 0 : Math.trunc(value.percent)}% Completo</TaskProgress>
                                 <TaskDepartament>{value.departament}</TaskDepartament>
                                 <TaskDate> {value.initial_date} - {value.final_date} </TaskDate>
                             </Container>

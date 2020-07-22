@@ -77,20 +77,20 @@ function AddTask() {
 			</Link>
 			<Form >
 				<h3>Titulo</h3>
-				<Input type="text" onChange={event => setTaskTitle(event.target.value)} />
+				<Input type="text" onChange={event => setTaskTitle(event.target.value)} required/>
 				<div style={{ width: '43%', height: '15%', margin: '5px 10px' }}>
 					<h3>Data Inicial</h3>
-					<DateInput type="date" name="initial-date" onChange={event => setInitial_date(event.target.value)} />
+					<DateInput type="date" name="initial-date" onChange={event => setInitial_date(event.target.value)} required/>
 				</div>
 				<div style={{ width: '43%', height: '15%', margin: '5px 10px' }}>
 					<h3>Data Final</h3>
-					<DateInput type="date" name="final-date" onChange={event => setFinalDate(event.target.value)} />
+					<DateInput type="date" name="final-date" onChange={event => setFinalDate(event.target.value)} required/>
 				</div>
 				<h3>Descrição da Tarefa</h3>
-				<textarea name="descriptionTask" cols="50" rows="5" onChange={event => setTaskDescri(event.target.value)} />
+				<textarea name="descriptionTask" cols="50" rows="5" onChange={event => setTaskDescri(event.target.value)} required/>
 				<div style={{ width: '30%', height: '10%', margin: '5px 10px' }}>
 					<h3>Loja</h3>
-					<select name="shop" onChange={event => setShop_id(event.target.value)}>
+					<select name="shop" onChange={event => setShop_id(event.target.value)} required>
 						<option >Selecione uma Loja</option>
 						<option value='1'>PegPese - Interlagos</option>
 						<option value='2'>PegPese - Taboão</option>
@@ -100,7 +100,7 @@ function AddTask() {
 				</div>
 				<div style={{ width: '30%', height: '10%', margin: '5px 10px' }}>
 					<h3>Departamento</h3>
-					<select name="departament" onChange={event => setDept_id(event.target.value)} >
+					<select name="departament" onChange={event => setDept_id(event.target.value)} required>
 						<option >Selecione um Departamento</option>
 						{dept.map(departament => (
 							<option key={departament.key} value={departament.key}>{departament.label}</option>
@@ -109,7 +109,7 @@ function AddTask() {
 				</div>
 				<div style={{ width: '30%', height: '10%', margin: '5px 10px' }}>
 					<h3>Prioridade</h3>
-					<select name="priority" onChange={event => setPriorityTask(event.target.value)}>
+					<select name="priority" onChange={event => setPriorityTask(event.target.value)} required>
 						<option>Selecione uma Prioridade</option>
 						<option value="0">Baixa Prioridade</option>
 						<option value="1">Alta Prioridade</option>

@@ -65,7 +65,7 @@ function TaskInfo({ id }) {
         setDesc(description);
       });
     }else{
-      window.alert('A descrição não pode ser vazia.');
+      return;
     }
 
 

@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width:100%;
-	min-height:100vh;
-  max-height:1000vh;
+	height:100vh;
   background-color: #343434;
 `;
 
@@ -25,6 +24,7 @@ export const NewTaskBtn = styled.button`
 	font-weight: bold;
 	align-self: center;
 	cursor: pointer;
+	margin:1px;
 	:hover{
 		border-color: #9FC782;
 	}
@@ -66,7 +66,7 @@ export const UserName = styled.h1`
 export const ContainerTask = styled.div`
 	width:100%;
 	padding:20px;
-	height: 895px;
+	height: 85%;
 	display:flex;
 `;
 
@@ -78,7 +78,7 @@ export const TaskArea = styled.div`
 
 export const Divisor = styled.div`
 	width: 0.5%;
-	height: 750px;
+	height: 90%;
 	align-self: center;
 	background-color: #e9e9e9;
 	border-radius: 3px;

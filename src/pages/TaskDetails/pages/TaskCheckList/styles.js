@@ -94,7 +94,7 @@ export const Item = styled.div`
     font-weight: 500;
     margin: 0 auto;
     text-align:center;
-    word-break:break-all;
+    word-break:normal;
   }
   @media (max-height: 700px) {
     width: 60%;

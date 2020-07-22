@@ -34,6 +34,7 @@ function Login() {
 				login("bearer " + response.data.token);
 				localStorage.setItem('permission', JSON.stringify(response.data.permission[0].administrator));
 				localStorage.setItem('name', response.data.name[0].name);
+				localStorage.setItem('display', 0);
 				history.push('/task');
 			}
 		} catch (error) {	

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import { Container, Header, NewTaskBtn, NewTaskDiv, LogOutDiv, LogOutBtn, UserName, ContainerTask, TaskArea, Divisor, TaskTitle, TaskDiv } from './styles';
+import { ModalContainer, Filter, BtnArea, FilterBtn } from './modalStyles'
 import TaskCard from './components/TaskCard';
+import TaskList from './components/TaskList';
 import LogOut from '../../assets/power.svg';
 import api from '../../services/api';
 import { logout } from '../../services/auth';
@@ -19,6 +21,14 @@ function Dashboard() {
 	const [doingTask, setDoingTask] = useState([]);
 	const [doneTask, setDoneTask] = useState([]);
 	const [update, setUpdate] = useState(false);
+
+	const [filter, setFilter] = useState(false);
+	const [dept, setDept] = useState([]);
+
+	let deptName = null;
+	let display = 0;
+	let view = parseInt(localStorage.getItem('display'));
+
 
 	// eslint-disable-next-line
 	const [{ setDoing }, drop] = useDrop({
@@ -96,7 +106,7 @@ function Dashboard() {
 	}
 
 	async function handleToggle(id, state, percent) {
-		if(state === 1 && percent !== 100){
+		if (state === 1 && percent !== 100) {
 			window.alert('A tarefa só pode ser finalizada quando estiver 100% completa.');
 			return;
 		}
@@ -117,6 +127,42 @@ function Dashboard() {
 		setUpdate(!update);
 	}
 
+	async function loadDept() {
+		await api.get('/tasks/selectDepartament', {
+			headers: {
+				"Authorization": localStorage.getItem('Authorization')
+			}
+		}).then(response => {
+			setDept(response.data)
+		})
+	}
+
+	async function handleFilter() {
+		if (deptName !== null) {
+			let doing = doingTask.filter(function (task) {
+				return task.departament === deptName;
+			})
+			let todo = toDoTask.filter(function (task) {
+				return task.departament === deptName;
+			})
+			let done = doneTask.filter(function (task) {
+				return task.departament === deptName;
+			})
+			setToDoTask(todo);
+			setDoingTask(doing);
+			setDoneTask(done);
+			setFilter(!filter);
+		} else {
+			localStorage.setItem('display', display);
+			setFilter(!filter);
+		}
+
+	}
+
+	async function handleCancelFilter() {
+		setUpdate(!update);
+		setFilter(!filter);
+	}
 
 	useEffect(() => {
 		isLogged();
@@ -127,16 +173,45 @@ function Dashboard() {
 		toDoTaskLoad();
 		doingTaskLoad();
 		doneTaskLoad();
+		loadDept();
 		// eslint-disable-next-line
 	}, [update]);
 
+	const FilterModal = () => {
+		return (
+			<ModalContainer value={filter} >
+				<Filter>
+					<h2>Filtro</h2>
+					<select onChange={event => deptName = event.target.value}>
+						<option >Selecione um Departamento</option>
+						{dept.map(departament => (
+							<option key={departament.key} value={departament.label}>{departament.label}</option>
+						))}
+					</select>
+					<select onChange={event => display = event.target.value}>
+						<option>Selecione um modo de exebição</option>
+						<option value={0}>Cards</option>
+						<option value={1}>Lista</option>
+					</select>
+					<BtnArea>
+						<FilterBtn isFilter={false} onClick={() => handleCancelFilter()} >Cancelar/Tirar</FilterBtn>
+						<FilterBtn isFilter={true} onClick={() => handleFilter()}>Filtrar</FilterBtn>
+					</BtnArea>
+
+				</Filter>
+			</ModalContainer>
+		)
+	}
+
 	return (
 		<Container>
+			<FilterModal />
 			<Header>
 				<NewTaskDiv>
 					<Link to="/add" style={{ height: '50px', alignSelf: 'center' }}>
 						<NewTaskBtn>Nova Tarefa</NewTaskBtn>
 					</Link>
+					<NewTaskBtn onClick={() => setFilter(!filter)}>Filtro</NewTaskBtn>
 				</NewTaskDiv>
 				<LogOutDiv>
 					<UserName>Bem Vindo, {user_name}</UserName>
@@ -150,7 +225,9 @@ function Dashboard() {
 					</TaskTitle>
 					<TaskDiv>
 						{toDoTask.map(task => (
-							<TaskCard value={task} key={task.id} />
+							<>
+								{view === 1 ? <TaskList value={task} key={task.id} /> : <TaskCard value={task} key={task.id} />}
+							</>
 						))}
 					</TaskDiv>
 				</TaskArea>
@@ -161,7 +238,9 @@ function Dashboard() {
 					</TaskTitle>
 					<TaskDiv >
 						{doingTask.map(task => (
-							<TaskCard value={task} key={task.id} />
+							<>
+								{view === 1 ? <TaskList value={task} key={task.id} /> : <TaskCard value={task} key={task.id} />}
+							</>
 						))}
 					</TaskDiv>
 				</TaskArea>
@@ -172,13 +251,17 @@ function Dashboard() {
 					</TaskTitle>
 					<TaskDiv>
 						{doneTask.map(task => (
-							<TaskCard value={task} key={task.id} />
+							<>
+								{view === 1 ? <TaskList value={task} key={task.id} /> : <TaskCard value={task} key={task.id} />}
+							</>
 						))}
 					</TaskDiv>
 				</TaskArea>
 			</ContainerTask>
 		</Container>
 	);
+
+
 }
 
 export default Dashboard;

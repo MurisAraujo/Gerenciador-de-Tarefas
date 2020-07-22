@@ -19,7 +19,9 @@ function TaskCheckList({ id }) {
         "Authorization": localStorage.getItem('Authorization')
       }
     })
+  
     setUpdate(!update);
+    setDescription('')
   }
 
   async function loadCheckList() {
@@ -83,7 +85,7 @@ function TaskCheckList({ id }) {
       <CheckListArea>
         <h2>CheckList</h2>
         <div>
-          <input placeholder="Digite o item do a ser adicionado" onChange={event => setDescription(event.target.value)} />
+          <input placeholder="Digite o item do a ser adicionado" onChange={event => setDescription(event.target.value)} value={description} />
           <Submit onClick={() => sendTask()}>Salvar</Submit>
         </div>
         {checklist.map(item => (
